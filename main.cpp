@@ -1,41 +1,47 @@
 #include <iostream>
 #include <ctime>
 
-int genNumber() {
-    srand(time(0));
+// Global constants
+const int MAX_RANGE = 11;
+const int USER_MAX_ATTEMPTS = 3;
 
-    return rand() % 10; // Returns a random number between 0 and 10
+int getRandomNumber() {
+	return rand() % MAX_RANGE;
 }
 
-void checkIfEqual(int attempts, int random) {
-    int userGuess;
+void checkIfEqual(int attempts, int randomNumber) {
+	int userGuess;
 
-    while(attempts > 0) {
-        std::cin >> userGuess;
+	while(attempts > 0) {
+		std::cin >> userGuess;
 
-        if(userGuess == random) {
-            std::cout << "Congrats!\nYou've guessed it!\n";
-            break;
-        } else {
-            attempts--;
-            if(attempts >= 1 && attempts < 3) 
-                std::cout << "Incorrect!\nCome on, try one more time: ";
-            else 
-                std::cout << "Oh! You did not guessed it :(\n";
-        }
-    }
+		if(userGuess == randomNumber) {
+			std::cout << "Congrats! You've guessed it.\n";
+			break;
+		} else {
+			attempts--;
+			if(attempts >= 1) {
+				std::cout << "Inconrrect. Try again: ";
+			} else {
+				std::cout << "Oh no! You did not guess it :(\nThe number was: " << randomNumber;
+				break;
+			}
+		}
+	}
 }
 
 void init() {
-    int userAttempts = 3;
-    int random = genNumber();
+	int random = getRandomNumber();
 
-    std::cout << "Hello!\nPlease try to guess what number I'm thinking of. \n"; 
-    std::cout << "Okay, try: "; 
+	std::cout << "Hello!\nTry to guess the number I'm thinking of (between 0 and 9).\n";
 
-    checkIfEqual(userAttempts, random);
+	std::cout << "You have " << USER_MAX_ATTEMPTS << " attempts. Give it a try: ";
+
+	checkIfEqual(USER_MAX_ATTEMPTS, random);
 }
 
-int main() {    
-    init();
+int main() {
+	srand(time(0));
+
+	init();
 }
