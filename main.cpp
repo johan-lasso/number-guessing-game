@@ -11,9 +11,23 @@ int getRandomNumber() {
 
 void checkIfEqual(int attempts, int randomNumber) {
 	int userGuess;
+	int previousGuess[2];
 
 	while(attempts > 0) {
 		std::cin >> userGuess;
+
+		// Check of valid input
+		if(userGuess < 0 || userGuess > MAX_RANGE) {
+			std::cout << "Number out of range, try again: ";
+			continue;
+		} else if(std::cin.fail()) {
+			std::cout << "Invalid input, try again: ";
+
+			std::cin.clear(); 
+			std::cin.ignore(10000, '\n'); 
+
+			continue;
+		}
 
 		if(userGuess == randomNumber) {
 			std::cout << "Congrats! You've guessed it.\n";
@@ -24,7 +38,6 @@ void checkIfEqual(int attempts, int randomNumber) {
 				std::cout << "Inconrrect. Try again: ";
 			} else {
 				std::cout << "Oh no! You did not guess it :(\nThe number was: " << randomNumber;
-				break;
 			}
 		}
 	}
